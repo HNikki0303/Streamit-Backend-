@@ -1,11 +1,34 @@
 import mongoose, {isValidObjectId} from "mongoose"
-import {Video} from "../models/video.model.js"
-import {User} from "../models/user.model.js"
+
+import {Video} from "../model/video.model.js"
+import {User} from "../model/user.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/Cloudinary.js"
 
+const uploadVideo = async (req,res) => {
+      const videoPath = req.file?.path;
+      if(!videoPath){
+        throw new ApiError(400, " video file is not uploaded by the user")
+      }
+
+      const videoFile = await uploadOnCloudinary(videoPath);
+      if(!videoFile){
+        throw new ApiError(500,"Sorry baby the video could not be uploaded on Cloudinary")
+      }
+
+      console.log("video file", videoFile)
+
+      return res.status(200).json(
+        new ApiResponse(
+            200,
+            videoFile,
+            "video has been uploaded successfully to cloudinary"
+        )
+      )
+
+}
 
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
@@ -19,8 +42,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     console.log("description of the video", description)
     //you need to get req.files by using multer middleware
     // we need to get thumbnail and video form req.files
-    const thumbnailPath = req.files.thumbnail[0].path;
-    const videoPath = req.files.video[0].path;
+    const thumbnailPath = req.files?.thumbnail[0].path;
+    const videoPath = req.files?.video[0].path;
     if(!thumbnailPath || !videoPath){
         throw new ApiError(400,"video and thumbnail both need to uploaded");
     }
@@ -113,6 +136,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 })
 
 export {
+    uploadVideo,
     getAllVideos,
     publishAVideo,
     getVideoById,

@@ -1,11 +1,19 @@
 import {upload} from "../middleware/multer.middleware.js"; 
 import {verifyJWT} from "../middleware/check.middleware.js";
-import { publishAVideo } from "../controllers/video.controller";
+import { publishAVideo } from "../controllers/video.controller.js";
 import {Router} from "express";
-import { getVideoById } from "../controllers/video.controller";
+import { getVideoById } from "../controllers/video.controller.js";
 import {updateVideo } from "../controllers/video.controller.js";
+import {uploadVideo} from "../controllers/video.controller.js";
+
 
 const router = Router();
+
+router.route("/upload").post(
+    upload.single("video"),
+    uploadVideo
+);
+
 router.route("/publishAVideo").post(
     upload.fields(
         [{
@@ -32,8 +40,4 @@ router.route("update/:userId").post(
 );
 
 
-
-
-
-
-
+export default router;

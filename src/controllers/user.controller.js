@@ -114,16 +114,21 @@ const loginUser = asyncHandler(async(req,res)=>{
     console.log(req.body);
     //ham username aur email dono se login karenge to dono ka hona jaruri hai
     if (!username && !password) {
-    throw new ApiError(400, "Either username or email is required to log in");
+    throw new ApiError(400, " username and password are required to log in");
     }
-    console.log("username aur email aa gye hain")
-    const user = await User.findOne({
-        $or:[{username},{password}]
-    })
-    // user ko dhoondenge with this username and email
+    console.log("username aur password aa gye hain")
+
+    const user = await User.findOne({username})
+    // user ko dhoondenge with this username 
     if(!user){
         throw new ApiError(404,"User does not exist")
     }
+
+    const isPasswordCorrect = await user.isPasswordCorrect(password)
+    if(!isPasswordCorrect){
+        throw new ApiError(400,"Oops ! The password did not match")
+    }
+
     console.log(user);
     //ab refreshToken aur accessToken nikalenge jiske liye hamne ek alag se function banaya hai
     //aur na id se ham call karenge is function ko tokens generate karne ke liye
@@ -217,7 +222,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
 })
 
 const changeCurrentPassword = asyncHandler(async(req,res)=>{
-    const {oldPassword,newPassword}=req.body
+    const {oldPassword,newPassword} = req.body
     const user = await User.findById(req.user?._id)
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
 

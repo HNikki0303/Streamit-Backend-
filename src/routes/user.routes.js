@@ -1,5 +1,6 @@
 console.log("abhi ham route pe hain");
 import {Router} from "express";
+
 import {registerUser ,
          loginUser ,
          logOutUser ,
@@ -11,7 +12,8 @@ import {registerUser ,
          updateCoverImage ,
          getUserChannelProfile ,
          getWatchHistory,
-         }
+}
+
 from "../controllers/user.controller.js";
 import {upload} from "../middleware/multer.middleware.js"; 
 import {verifyJWT} from "../middleware/check.middleware.js";
