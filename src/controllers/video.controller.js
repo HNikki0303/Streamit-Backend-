@@ -53,7 +53,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const thumbnail =  await uploadOnCloudinary(thumbnailPath)
     const videoFile = await uploadOnCloudinary(videoPath)
 
-    console.log("video file", videoFile)
+    //console.log("video file", videoFile)
     
     const video = await Video.create({
         title,
@@ -66,8 +66,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
     })
 
     if(!video){
-        return new ApiError(500,"Video failed to be created")
+        throw new ApiError(500,"Video failed to be created")
     }
+
+    console.log("we have published and have got the vides : <- message from backend")
     return res.status(200).json(
         new ApiResponse(200,video,"Video has been created and published successfully")
     )
@@ -81,9 +83,12 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400,"video id is missing the url , please check ")
     }
 
-    const video = await Video.findById(videoId)
+    const video = await Video.findById(videoId).populate('owner', 'username avatar');
+    if(!video){
+        throw new ApiError(404,"video not found with this id ");
+    }
 
-    return res.status.
+    return res.status(200).
     json(
         new ApiResponse(
             200,
