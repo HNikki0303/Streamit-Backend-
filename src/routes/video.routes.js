@@ -5,7 +5,7 @@ import {Router} from "express";
 import { getVideoById } from "../controllers/video.controller.js";
 import {updateVideo } from "../controllers/video.controller.js";
 import {uploadVideo} from "../controllers/video.controller.js";
-
+import {getPaginatedVideoIds} from "../controllers/video.controller.js"
 
 const router = Router();
 
@@ -32,6 +32,10 @@ router.route("/publishAVideo").post(
 
 router.route("/videoLink/:videoId").get(
     getVideoById
+);
+
+router.route('/paginated').get(
+    getPaginatedVideoIds
 );
 
 router.route("update/:userId").post(
