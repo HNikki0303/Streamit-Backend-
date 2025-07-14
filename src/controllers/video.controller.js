@@ -131,6 +131,43 @@ const updateVideo = asyncHandler(async (req, res) => {
 
 })
 
+ const getPaginatedVideoIds = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page || '1');
+  const limit = parseInt(req.query.limit || '6');
+  const skip = (page - 1) * limit;
+
+  console.log(`Fetching paginated videos: page=${page}, limit=${limit}, skip=${skip}`);
+
+  const total = await Video.countDocuments();
+  console.log(`Total videos in DB: ${total}`);
+
+  const videos = await Video.find({})
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .select('_id');
+
+  console.log("Fetched video IDs:", videos);
+
+  if (!videos || videos.length === 0) {
+    console.warn("No videos found for this page.");
+    throw new ApiError(404, "No videos found");
+  }
+
+  const response = new ApiResponse(
+    200,
+    {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      videos,
+    },
+    "Paginated videos fetched successfully"
+  );
+
+  return res.status(200).json(response);
+});
+
+
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
@@ -146,6 +183,7 @@ export {
     publishAVideo,
     getVideoById,
     updateVideo,
+    getPaginatedVideoIds,
     deleteVideo,
     togglePublishStatus
 }
