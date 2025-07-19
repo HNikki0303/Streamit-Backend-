@@ -6,6 +6,8 @@ import { getVideoById } from "../controllers/video.controller.js";
 import {updateVideo } from "../controllers/video.controller.js";
 import {uploadVideo} from "../controllers/video.controller.js";
 import {getPaginatedVideoIds} from "../controllers/video.controller.js"
+import {getPaginatedVideosByOwner} from "../controllers/video.controller.js"
+
 
 const router = Router();
 
@@ -37,6 +39,11 @@ router.route("/videoLink/:videoId").get(
 router.route('/paginated').get(
     getPaginatedVideoIds
 );
+
+router.route('/paginated/user').get(
+    verifyJWT,
+    getPaginatedVideosByOwner
+)
 
 router.route("update/:userId").post(
     upload.single("thumbnail"),
