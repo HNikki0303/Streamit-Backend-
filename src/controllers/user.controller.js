@@ -265,10 +265,10 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
 })
 
 const updateAccountDetails = asyncHandler(async(req,res)=>{
-    const {fullName,email}= req.body;
+    const {fullName}= req.body;
 
-    if(!fullName  || !email){
-        throw new ApiError(400,"fullName and email are required fields")
+    if(!fullName){
+        throw new ApiError(400,"fullName is required field")
     }
 
     const user = await User.findByIdAndUpdate(
@@ -276,7 +276,6 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
         {   //this is explicit way of setting or updating fields 
             $set:{
                 fullName : fullName,
-                email:email
             }
             //you can also use :-
             // fullName , email which is a modern JavaScript shorthand feature called Object Property Value Shorthand (introduced in ES6/ES2015).
@@ -300,11 +299,14 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
     if(!avatarLocalPath){
        throw new ApiError(405,"avatar image is required")
     }
+    console.log("oh we have recieved an avatar image to be uploaded")
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     if(!avatar.url){
         throw new ApiError(401,"avatar file could not uploaded on cloudinary")
     }
+    console.log("yes the avatar image has been uploaded in cloudinary" , avatar.url)
+    
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
@@ -325,18 +327,20 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
 })
 
 const updateCoverImage = asyncHandler(async(req,res)=>{
-    const coverImagePath = req.files?.path
-
+    const coverImagePath = req.file?.path
+console.log()
     if(!coverImagePath){
         throw new ApiError(405,"coverImage is required")
     }
+    console.log("We have received a cover Image from the frontend")
 
     const coverImage = await uploadOnCloudinary(coverImagePath)
     if(!coverImage.url){
         throw new ApiError(401,"Error in uploading the image file in Cloudinary")
     }
+    console.log("the coverimage has been updated in cloudinary with this url ",coverImage.url)
 
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?.id,
         {   //ser mein ek pura object hi de sakte ho aur : kar rahe hain kyuki uploading kar rahe hain na
             $set:{
