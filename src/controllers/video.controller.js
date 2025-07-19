@@ -167,6 +167,45 @@ const updateVideo = asyncHandler(async (req, res) => {
   return res.status(200).json(response);
 });
 
+const getPaginatedVideosByOwner = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page || '1');
+  const limit = parseInt(req.query.limit || '6');
+  const skip = (page - 1) * limit;
+
+  const ownerId = req.user._id;
+
+  const aggregationPipeline = [
+    { $match: { owner: ownerId } },
+    { $sort: { createdAt: -1 } },
+    {
+      $facet: {
+        data: [
+          { $skip: skip },
+          { $limit: limit },
+          { $project: { _id: 1 } },
+        ],
+        totalCount: [{ $count: "count" }]
+      }
+    }
+  ];
+
+  const result = await Video.aggregate(aggregationPipeline);
+
+  const total = result[0]?.totalCount[0]?.count || 0;
+  const videos = result[0]?.data || [];
+
+  if (videos.length === 0) {
+    throw new ApiError(404, "No videos found for this user.");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      videos
+    }, "User's videos fetched successfully")
+  );
+});
 
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
@@ -184,6 +223,7 @@ export {
     getVideoById,
     updateVideo,
     getPaginatedVideoIds,
+    getPaginatedVideosByOwner,
     deleteVideo,
     togglePublishStatus
 }
