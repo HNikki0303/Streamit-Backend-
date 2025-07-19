@@ -56,6 +56,7 @@ router.route("/currentUser").get(
     getCurrentUser
 )
 
+
 router.route("/updateDetails").patch(
     verifyJWT,
     updateAccountDetails
@@ -67,13 +68,13 @@ router.route("/changePassword").post(
 )
 
 router.route("/updateAvatar").patch(
-    upload.single("Avatar"),  
+    upload.single("avatar"),  
     verifyJWT,
     updateUserAvatar 
 )
 
 router.route("/updateCoverImage").patch(
-    upload.single("CoverImage"),  
+    upload.single("coverImage"),  
     verifyJWT,
     updateCoverImage 
 )
