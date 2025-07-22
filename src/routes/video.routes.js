@@ -7,7 +7,7 @@ import {updateVideo } from "../controllers/video.controller.js";
 import {uploadVideo} from "../controllers/video.controller.js";
 import {getPaginatedVideoIds} from "../controllers/video.controller.js"
 import {getPaginatedVideosByOwner} from "../controllers/video.controller.js"
-
+import { getVideoByTitle} from "../controllers/video.controller.js"
 
 const router = Router();
 
@@ -50,5 +50,8 @@ router.route("update/:userId").post(
     updateVideo
 );
 
+router.route("/searchTitle").get(
+    getVideoByTitle
+)
 
 export default router;
