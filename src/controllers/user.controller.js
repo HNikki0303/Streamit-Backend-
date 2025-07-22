@@ -431,6 +431,33 @@ const getUserChannelProfile = asyncHandler(async(req,res)=>{
 
 })
 
+
+const ChannelDescription = asyncHandler(async(req,res)=>{
+    const channel_id = req.user?._id;
+    const {description} = req.body;
+
+    const add_description = await User.findByIdAndUpdate(
+        channel_id,
+        {
+            $set:{
+               channelDescription : description 
+            }
+        },
+        {new : true}
+    ).select("-password -refreshToken");
+
+    return res.status(200)
+    .json(
+        new ApiResponse(
+            200,
+            add_description,
+            "Congo ,, the channel description has been updated"
+        )
+    );
+
+});
+
+
 const getWatchHistory = asyncHandler(async(req,res)=>{
     const user = await User.aggregate([
         {
@@ -494,5 +521,6 @@ export {registerUser , //:)
     updateUserAvatar ,
     updateCoverImage ,
     getUserChannelProfile ,
-    getWatchHistory
+    getWatchHistory,
+    ChannelDescription
 } 
