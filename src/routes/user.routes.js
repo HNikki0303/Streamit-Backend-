@@ -12,9 +12,8 @@ import {registerUser ,
          updateCoverImage ,
          getUserChannelProfile ,
          getWatchHistory,
-}
-
-from "../controllers/user.controller.js";
+         ChannelDescription
+}from "../controllers/user.controller.js";
 import {upload} from "../middleware/multer.middleware.js"; 
 import {verifyJWT} from "../middleware/check.middleware.js";
 
@@ -87,6 +86,11 @@ router.route("/Channel/:userId").get(
 router.route("/watchHistory").get(
     verifyJWT,
     getWatchHistory
+)
+
+router.route("/channelDescription").patch(
+    verifyJWT,
+    ChannelDescription
 )
 
 
