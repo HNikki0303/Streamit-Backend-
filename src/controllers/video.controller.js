@@ -207,14 +207,45 @@ const getPaginatedVideosByOwner = asyncHandler(async (req, res) => {
   );
 });
 
-const deleteVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-    //TODO: delete video
-})
 
-const togglePublishStatus = asyncHandler(async (req, res) => {
-    const { videoId } = req.params
-})
+const getVideoByTitle = asyncHandler(async (req, res) => {
+  const { title, page = 1, limit = 6 } = req.query;
+
+  if (!title) {
+    throw new ApiError(400, "Search title is required");
+  }
+  console.log("we have got the video title " , title);
+
+  const skip = (parseInt(page) - 1) * parseInt(limit);
+
+  const filter = {
+    title: { $regex: title, $options: "i" }, // case-insensitive partial match
+    isPublished: true,
+  };
+
+  const total = await Video.countDocuments(filter);
+
+  const videos = await Video.find(filter)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(parseInt(limit))
+    .select("_id"); // Only return IDs for paginated fetching
+
+  if (!videos.length) {
+    throw new ApiError(404, "No matching videos found");
+  }
+
+  console.log("videos have been fetched from the backend");
+  return res.status(200).json(
+    new ApiResponse(200, {
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(total / parseInt(limit)),
+      videos,
+    }, "Matching videos fetched successfully")
+  );
+});
+
+
 
 export {
     uploadVideo,
@@ -224,6 +255,5 @@ export {
     updateVideo,
     getPaginatedVideoIds,
     getPaginatedVideosByOwner,
-    deleteVideo,
-    togglePublishStatus
+    getVideoByTitle
 }
