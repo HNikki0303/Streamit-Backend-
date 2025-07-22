@@ -26,6 +26,10 @@ const userSchema = new Schema(
             trim: true, 
             index: true
         },
+        channelDescription:{
+            type:String ,
+            default:''
+        },
         avatar: {
             type: String, // cloudinary url
             required: true,
