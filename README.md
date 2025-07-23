@@ -1,12 +1,7 @@
-Perfect. Now that I have your **backend code**, here is a polished and comprehensive `README.md` tailored for your **StreamIt Backend** — a personalized AI-powered MERN video streaming platform.
-
----
 
 # 📽️ StreamIt Backend
 
 The backend for **StreamIt**, a full-stack MERN video streaming platform that empowers both creators and viewers with a personalized AI assistant based on their channel description. This backend handles user authentication, video uploads, personalized content delivery, and secure data handling — all backed by robust REST APIs.
-
----
 
 ## 🚀 Features
 
@@ -39,8 +34,6 @@ The backend for **StreamIt**, a full-stack MERN video streaming platform that em
   * Store full user data including avatar, cover image, watch history, and channel description
   * Profile updates and video management per user
 
----
-
 ## 🛠️ Technologies Used
 
 * **Backend Framework**: Node.js with Express.js
@@ -50,8 +43,6 @@ The backend for **StreamIt**, a full-stack MERN video streaming platform that em
 * **File Uploads**: Multer
 * **Security**: Bcrypt, HTTP-only cookies
 * **Custom Utilities**: `ApiError`, `ApiResponse`, `asyncHandler`
-
----
 
 ## 📁 Project Structure
 
@@ -78,8 +69,6 @@ The backend for **StreamIt**, a full-stack MERN video streaming platform that em
 └── server.js
 ```
 
----
-
 ## 🔗 API Endpoints
 
 ### 🧾 Auth & User
@@ -97,8 +86,6 @@ The backend for **StreamIt**, a full-stack MERN video streaming platform that em
 * `GET /videos/paginated` — Get paginated list of video IDs
 * `GET /videos/paginated/user` — Paginated videos for logged-in user
 * `GET /videos/searchTitle` — Search videos by title
-
----
 
 ## ⚙️ Environment Variables
 
@@ -120,8 +107,6 @@ API_KEY=your_cloudinary_api_key
 API_SECRET=your_cloudinary_api_secret
 ```
 
----
-
 ## 🧪 Getting Started
 
 1. **Install dependencies**
@@ -138,28 +123,20 @@ npm install
 npm run dev
 ```
 
----
-
 ## 🌐 Connected Frontend
 
 The frontend for StreamIt is built using **React** and communicates with this backend for all video, user, and assistant operations.
-
 > You can find the frontend repo [here](#) *(Add your frontend repo link)*
 
----
 
 ## 👥 Contributing
 
 Feel free to fork the repo, submit issues, or contribute pull requests. This project is open to improvements!
 
----
 
 ## 🧠 Credits
 
-* Built with ❤️ by \[Your Name]
+* Built  by Nikita Pant
 * Cloud services by [Cloudinary](https://cloudinary.com/)
 * MongoDB hosting by [MongoDB Atlas](https://www.mongodb.com/atlas)
 
----
-
-Would you like this README exported to a file or further tailored (like including AI assistant implementation detail)?
