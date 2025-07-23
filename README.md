@@ -126,7 +126,7 @@ npm run dev
 ## 🌐 Connected Frontend
 
 The frontend for StreamIt is built using **React** and communicates with this backend for all video, user, and assistant operations.
-> You can find the frontend repo [here](#) *(Add your frontend repo link)*
+> You can find the frontend repo [https://github.com/HNikki0303/Streamit/tree/master](#)
 
 
 ## 👥 Contributing
