@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 app.use(cors({
     origin: [
-  'https://streamit-xi.vercel.app',
+  'https://streamit-git-master-nikita-pants-projects.vercel.app',
   'http://localhost:8000'
    ],
     credentials:true
