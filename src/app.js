@@ -7,7 +7,7 @@ app.use(cors({
     origin: [
   'https://streamit-94q7.vercel.app',
   'http://localhost:8000'
-];
+   ],
     credentials:true
 }))
 
