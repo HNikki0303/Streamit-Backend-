@@ -3,6 +3,10 @@
 
 The backend for **StreamIt**, a full-stack MERN video streaming platform that empowers both creators and viewers with a personalized AI assistant based on their channel description. This backend handles user authentication, video uploads, personalized content delivery, and secure data handling — all backed by robust REST APIs.
 
+## 🚀 Live API on Render
+Base URL: [https://your-backend.onrender.com](https://streamit-backend-kvh6.onrender.com)
+
+
 ## 🚀 Features
 
 * 🔐 **Authentication & Authorization**
